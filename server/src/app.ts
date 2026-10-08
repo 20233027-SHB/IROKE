@@ -3,6 +3,7 @@ import { Hono, type Context } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import {
+  MAX_REQUEST_BODY_BYTES,
   SELFIE_INPUT,
   buildPrompt,
   type ApiError,
@@ -21,8 +22,6 @@ import { ProviderError } from './providers/types';
 
 type Env = { Variables: { clientId: string } };
 
-/** 셀카(PNG 768×1024)와 레퍼런스 2장이 넉넉히 들어가는 크기 */
-const MAX_BODY_BYTES = 12 * 1024 * 1024;
 const CLIENT_ID = /^[0-9a-f-]{36}$/i;
 
 const fail = (c: Context, status: ContentfulStatusCode, code: ApiErrorCode, error: string) =>
@@ -34,7 +33,7 @@ export function createApp() {
   const limiter = createDailyLimiter(env.generationDailyLimit);
   const app = new Hono<Env>().basePath('/api');
 
-  app.use(bodyLimit({ maxSize: MAX_BODY_BYTES, onError: (c) => fail(c, 413, 'payload_too_large', '요청이 너무 큼') }));
+  app.use(bodyLimit({ maxSize: MAX_REQUEST_BODY_BYTES, onError: (c) => fail(c, 413, 'payload_too_large', '요청이 너무 큼') }));
   // 로그인 전까지는 브라우저별 임의 ID로 사용자를 구분한다
   app.use(async (c, next) => {
     const id = c.req.header('x-iroke-client-id') ?? '';

@@ -2,6 +2,7 @@ import { mkdtempSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { MAX_REQUEST_BODY_BYTES } from '@iroke/shared';
 import type { createApp as CreateApp } from './app';
 
 // env는 import 시점에 읽으므로 먼저 설정한다
@@ -53,6 +54,18 @@ describe('POST /api/generations', () => {
     const logs = readLogs();
     expect(logs).not.toContain('base64');
     expect(logs).not.toContain('ignore all rules');
+  });
+
+  it('JPEG 셀카도 받는다', async () => {
+    const res = await post('/api/generations', { ...valid, selfie: 'data:image/jpeg;base64,/9j/4AAQSkZJRg==' });
+    expect(res.status).toBe(200);
+    expect((await json(res)).image).toMatch(/^data:image\/jpeg;base64,/);
+  });
+
+  it('본문이 요청 상한(Vercel 4.5MB 기준)을 넘으면 413', async () => {
+    const res = await post('/api/generations', { ...valid, selfie: `data:image/jpeg;base64,${'A'.repeat(MAX_REQUEST_BODY_BYTES)}` });
+    expect(res.status).toBe(413);
+    expect(await json(res)).toMatchObject({ code: 'payload_too_large' });
   });
 });
 

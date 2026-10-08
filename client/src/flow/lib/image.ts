@@ -27,7 +27,10 @@ export function makeCanvas(width: number, height: number) {
   return { canvas, ctx };
 }
 
-/** 셀카를 설정 비율(3:4)로 가운데 잘라 고정 크기로 줄인다. 비율이 다르면 모델이 구도를 바꾼다. */
+/**
+ * 셀카를 설정 비율(3:4)로 가운데 잘라 고정 크기로 줄인다. 비율이 다르면 모델이 구도를 바꾼다.
+ * 사진은 PNG보다 JPEG가 훨씬 작아서, 레퍼런스와 함께 보내도 요청 본문 상한 안에 들어간다.
+ */
 export async function normalizeSelfie(file: Blob): Promise<string> {
   const img = await loadImage(await fileToDataUrl(file));
   const { width: W, height: H } = SELFIE_INPUT;
@@ -43,7 +46,7 @@ export async function normalizeSelfie(file: Blob): Promise<string> {
   }
   const { canvas, ctx } = makeCanvas(W, H);
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
-  return canvas.toDataURL('image/png');
+  return canvas.toDataURL('image/jpeg', 0.92);
 }
 
 /** 레퍼런스는 비율을 유지한 채 긴 변만 줄인다 */
