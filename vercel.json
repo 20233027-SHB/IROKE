@@ -4,11 +4,13 @@
     "client": {
       "root": "client",
       "framework": "vite",
+      "installCommand": "cd .. && npm ci --include=dev",
       "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
     },
     "server": {
       "root": "server",
       "framework": "hono",
+      "installCommand": "cd .. && npm ci --include=dev",
       "entrypoint": "src/vercel.ts",
       "functions": {
         "src/vercel.ts": { "maxDuration": 120 }
