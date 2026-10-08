@@ -62,7 +62,8 @@ export type ApiErrorCode =
   | 'no_image'
   /** 이미지 대신 텍스트만 응답 */
   | 'text_only'
-  | 'timeout';
+  | 'timeout'
+  | 'server_error';
 
 export interface ApiError {
   error: string;
