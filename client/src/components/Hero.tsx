@@ -1,4 +1,6 @@
+import { Link } from 'react-router';
 import type { CSSProperties } from 'react';
+import { SparkleIcon } from './icons';
 import { RingCarousel } from './RingCarousel';
 import type { RingImage } from './RingCarousel';
 
@@ -12,16 +14,6 @@ const PROJECT_IMAGES: RingImage[] = [
 ];
 
 const HEADLINE = ['혼자 고민하던 헤어스타일', 'IROKE와 함께', '시작해보세요.'];
-
-function SparkleIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
-      <path d="M10 3.5c.6 3.9 2.1 5.4 6 6-3.9.6-5.4 2.1-6 6-.6-3.9-2.1-5.4-6-6 3.9-.6 5.4-2.1 6-6Z" />
-      <path d="M18 14c.3 1.9 1.1 2.7 3 3-1.9.3-2.7 1.1-3 3-.3-1.9-1.1-2.7-3-3 1.9-.3 2.7-1.1 3-3Z" />
-      <path d="M18.5 2.5v3M17 4h3" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 export function Hero() {
   return (
@@ -50,9 +42,9 @@ export function Hero() {
             I'm a multidisciplinary designer focused on creating bold visual identities, and digital experiences for
             brands and businesses.
           </p>
-          <a className="pill" href="#hair-profile">
+          <Link className="pill" to="/profile">
             모발 프로필 등록/확인 <span className="pill__arrow" aria-hidden="true">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </main>

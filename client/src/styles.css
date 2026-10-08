@@ -4,8 +4,8 @@
   --muted: #6c6c6c;
   --line: #dcdcdc;
   --gutter: 28px;
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Inter Display', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: 'Inter', 'Pretendard Variable', Pretendard, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Inter Display', 'Inter', 'Pretendard Variable', Pretendard, system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* Vertical position of the ring centre within the page */
   --ring-y: 39%;
 }
@@ -19,8 +19,6 @@
 html,
 body {
   margin: 0;
-  height: 100%;
-  overflow: hidden;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font);
@@ -78,9 +76,21 @@ a {
   transition: background-color 0.2s, color 0.2s;
 }
 
-.pill:hover {
+button.pill {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.pill:hover:not(:disabled) {
   background: var(--bg);
   color: var(--fg);
+}
+
+.pill:disabled {
+  border-color: #c8c8c8;
+  background: #c8c8c8;
+  color: #fff;
+  cursor: not-allowed;
 }
 
 .pill__arrow {
@@ -88,7 +98,7 @@ a {
   transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.pill:hover .pill__arrow {
+.pill:hover:not(:disabled) .pill__arrow {
   transform: translateX(4px);
 }
 

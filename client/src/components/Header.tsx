@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 const NAV = [
   { label: 'Home', href: '#', current: true },
   { label: 'Services', href: '#services' },
@@ -21,9 +23,9 @@ export function Header() {
           ))}
         </ul>
       </nav>
-      <a className="pill" href="#contact">
+      <Link className="pill" to="/start">
         어울리는 머리 찾기
-      </a>
+      </Link>
     </header>
   );
 }
